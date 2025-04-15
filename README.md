@@ -43,6 +43,7 @@ cd Application-Monitoring-Dashboard
 3. **Start FastAPI Server:**
 
 ```bash
+source env/bin/activate 
 python3 -m uvicorn app:app --reload
 ```
 
