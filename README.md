@@ -13,7 +13,7 @@ This repository contains the code and setup for the **Application Monitoring Das
 
 Before running the project, ensure you have the following installed:
 
-```bash
+```bash 
 sudo apt update 
 sudo apt install python3 python3-pip python3-venv -y 
 ```
@@ -51,7 +51,7 @@ Open `http://localhost:8000/docs` to test endpoints like `/users/1` and `/error-
 
 4. **Run Load Testing Script:**
 
-```bash
+```bash New terminal
 python3 load_test.py
 ```
 
