@@ -185,64 +185,11 @@ SELECT * FROM logs;
 
 ### 1. Add Grafana to Docker Compose
 
-Update `docker-compose.yml` or create `docker-consumer.yml` with:
-
-```yaml
-version: '3.8'
-
-services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.0
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-
-  kafka:
-    image: confluentinc/cp-kafka:7.3.0
-    depends_on:
-      - zookeeper
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
-  mysql:
-    image: mysql:8.4.4
-    environment:
-      MYSQL_ROOT_PASSWORD: xxx
-      MYSQL_DATABASE: logdb
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-  api:
-    build: .
-    ports:
-      - "8000:8000"
-    depends_on:
-      - kafka
-
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    depends_on:
-      - mysql
-    volumes:
-      - grafana_data:/var/lib/grafana
-
-volumes:
-  mysql_data:
-  grafana_data:
-```
+Update `docker-compose.yml` to have grafana:
 
 ---
 
-### 2. Start All Services:
+### 2. Start All Services to update grafana:
 
 ```bash
 docker-compose -f docker-consumer.yml up -d
@@ -273,38 +220,58 @@ docker-compose -f docker-consumer.yml up -d
 
 ### 4. Create Dashboard Panels
 
-#### Panel 1: Request Count per Endpoint
 
+## 📊 Creating a Dashboard in Grafana (Updated UI)
+
+### 1. Create a New Dashboard
+- Look for the "Dashboards" icon (four squares) in the left menu.
+- Click **"New"** (button on the top-right).
+- Select **"New Dashboard"**.
+   **or**
+- Click on " + " and click on new dashboards
+  
+### 3. Add a Panel
+You'll see an empty dashboard.
+- Click **"Add visualization"** (or "Add panel").
+
+**Adding Your First Panel (Example: Request Count)**
+- Select Data Source:
+- Choose **MySQL** (the one you configured earlier).
+- Switch to **Code** Mode (SQL):
+- Click the **"Edit SQL"** button (or select "SQL" from the query type dropdown).
+- Paste the SQL Query.
+
+### 4. Visualization Settings
+- Under **"Visualization"** (right sidebar), select **"Bar chart"**.
+- Set a Panel title (e.g., "Request Count by Endpoint").
+- Save the Panel: Click **"Apply"** (top-right).
+
+### 5. SQL Queries to Use (Create Panels)
+
+#### 1. Request Count per Endpoint(Panel 1)
 ```sql
 SELECT
   url AS metric,
   COUNT(*) AS count
 FROM logs
 GROUP BY url
-ORDER BY count DESC
+ORDER BY count DESC;
 ```
-
-Visualization: **Bar chart**  
+Visualization: **Bar chart**   
 Panel Title: `Request Count by Endpoint`
 
----
-
-#### Panel 2: Response Time Trends
-
+#### 2. Response Time Trends(Panel 2)
 ```sql
 SELECT
   timestamp AS time,
   duration AS value,
   url AS metric
-FROM logs
+FROM logs;
 ```
-
 Visualization: **Time Series**
+Panel Title: `Response Time Trends`
 
----
-
-#### Panel 3: Most Frequent Errors
-
+#### 3. Most Frequent Errors(Panel 3)
 ```sql
 SELECT
   url AS metric,
@@ -312,15 +279,12 @@ SELECT
 FROM logs
 WHERE error = 1
 GROUP BY url
-ORDER BY error_count DESC
+ORDER BY error_count DESC;
 ```
-
 Visualization: **Bar chart or Table**
+Panel Title: `Most Frequent Errors`
 
----
-
-#### Panel 4: Real-Time Logs Feed
-
+#### 4. Real-Time Logs Feed(Panel 4)
 ```sql
 SELECT
   timestamp,
@@ -331,11 +295,13 @@ SELECT
   error
 FROM logs
 ORDER BY timestamp DESC
-LIMIT 100
+LIMIT 100;
 ```
-
 Visualization: **Table**
+Panel Title: `Real-Time Logs Feed`
 
 ---
 
-### ✅ You can add more panels as needed based on log data!
+### 5. ✅ Add more panels if needed!
+
+
