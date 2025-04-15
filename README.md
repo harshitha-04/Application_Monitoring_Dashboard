@@ -50,8 +50,8 @@ python3 -m uvicorn app:app --reload
 Open `http://localhost:8000/docs` to test endpoints like `/users/1` and `/error-test`.
 
 4. **Run Load Testing Script:**
-
-```bash New terminal
+ `New terminal`
+```bash
 python3 load_test.py
 ```
 
@@ -65,6 +65,7 @@ Hit /error-test → Status: 500
 - Ensure Kafka and Zookeeper are up via Docker.
 - Topics (`api-logs`, `error-logs`) should be created.
 
+ `New terminal`
 ```bash
 docker ps
 docker exec -it kafka_kafka_1 bash
@@ -74,6 +75,7 @@ exit
 
 6. **View Logs via Kafka Console Consumer:**
 
+ `New terminal`
 ```bash
 docker exec -it kafka_kafka_1 bash
 kafka-console-consumer --topic api-logs --bootstrap-server localhost:9092
@@ -81,8 +83,8 @@ kafka-console-consumer --topic api-logs --bootstrap-server localhost:9092
 
 7. **Dockerized Setup:**
 
+ `New terminal`
 ```bash
-cat docker-compose.yml
 docker-compose down && docker-compose up -d
 curl http://localhost:8000/
 docker-compose logs
@@ -140,11 +142,10 @@ SELECT * FROM logs;
 
 3. **Run load testing script:**
    
-(Run this script only if Week 2 is being done separately. Otherwise, skip it.)
+(Run this script only if Week 2 is being done separately. Otherwise, no need to run again!)
 
 Terminal 1
 ```bash
-python3 -m venv env 
 source env/bin/activate
 python3 -m uvicorn app:app --reload
 ```
@@ -247,7 +248,7 @@ You'll see an empty dashboard.
 - Set a Panel title (e.g., "Request Count by Endpoint").
 - Save the Panel: Click **"Apply"** (top-right).
 
-### 5. SQL Queries to Use (Create Panels)
+## SQL Queries to Use (Create Panels)
 
 #### 1. Request Count per Endpoint(Panel 1)
 ```sql
