@@ -260,6 +260,7 @@ GROUP BY url
 ORDER BY count DESC;
 ```
 Visualization: **Bar chart**   
+
 Panel Title: `Request Count by Endpoint`
 
 #### 2. Response Time Trends(Panel 2)
@@ -271,6 +272,7 @@ SELECT
 FROM logs;
 ```
 Visualization: **Time Series**
+
 Panel Title: `Response Time Trends`
 
 #### 3. Most Frequent Errors(Panel 3)
@@ -284,6 +286,7 @@ GROUP BY url
 ORDER BY error_count DESC;
 ```
 Visualization: **Bar chart or Table**
+
 Panel Title: `Most Frequent Errors`
 
 #### 4. Real-Time Logs Feed(Panel 4)
@@ -300,6 +303,7 @@ ORDER BY timestamp DESC
 LIMIT 100;
 ```
 Visualization: **Table**
+
 Panel Title: `Real-Time Logs Feed`
 
 ---
