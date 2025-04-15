@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+kafka-python
+mysql-connector-python
+pydantic
+requests
+python-dotenv
